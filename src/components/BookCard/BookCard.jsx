@@ -16,7 +16,7 @@ export const BookCard = ({ book }) => {
         <p>
           {pageCount > 0 && 'Cantidad de páginas: ' + pageCount}
         </p>
-        <a href={more} className="btn btn-outline-info">Ver más</a>
+        <a href={more} className='btn btn-outline-info'>Ver más</a>
       </div>
     </div>
   )

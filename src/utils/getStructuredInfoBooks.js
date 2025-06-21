@@ -9,5 +9,7 @@ export const getStructuredInfoBooks = (data) => {
         pageCount: bk.volumeInfo.pageCount,
         more: bk.volumeInfo.canonicalVolumeLink,
     }));
+
+    localStorage.setItem('books', JSON.stringify(books));
     return books;
 }

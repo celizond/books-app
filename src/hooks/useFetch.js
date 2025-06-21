@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const useFetch = (url, transformFn) => {
 
   const [state, setState] = useState({
-    data: null,
+    data: JSON.parse(localStorage.getItem('books')) || null,
     isLoading: false,
     hasError: false,
     error: null,
@@ -15,7 +15,7 @@ export const useFetch = (url, transformFn) => {
       /* await new Promise(resolve => setTimeout(resolve, 101500)); */
 
       const response = await fetch(url);
-      const data = await response.json()
+      const data = await response.json();
 
       setState({
         data: transformFn ? transformFn(data) : data,
@@ -36,7 +36,7 @@ export const useFetch = (url, transformFn) => {
   useEffect(() => {
     if (!url) return;
     setState({...state, isLoading: true});
-    onFetch()
+    onFetch();
   }, [url])
 
   return {
