@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-export const useFetch = (url, transformFn) => {
+export const useFetch = (url, transformFn, fetchName) => {
 
   const [state, setState] = useState({
-    data: JSON.parse(localStorage.getItem('books')) || null,
+    data: JSON.parse(localStorage.getItem(fetchName)) || null,
     isLoading: false,
     hasError: false,
     error: null,

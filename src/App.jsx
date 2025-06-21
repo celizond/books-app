@@ -5,6 +5,7 @@ import { AboutPage } from './components/AboutPage';
 import { LoginPage } from './components/LoginPage';
 
 export const App = () => {
+
     return (
         <>
             <NavBar />

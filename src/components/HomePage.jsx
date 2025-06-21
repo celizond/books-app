@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useFetch, useForm } from '../hooks'
 import { getStructuredInfoBooks } from '../utils/getStructuredInfoBooks';
-import { BookCard } from './BookCard/BookCard';
 import { Spinner } from './Spinner/Spinner';
+import { ErrorMessage } from './errorMessage/ErrorMessage';
+import { SearchedContainer } from './searchedContainer/SearchedContainer';
+import { useContext } from "react"
+import { BookContext } from '../hooks/context/BookContext';
 
 export const HomePage = () => {
 
@@ -10,17 +13,20 @@ export const HomePage = () => {
     const API_KEY = 'AIzaSyARcQEB_C_BPrp23ZAYe_Bse36L-ogvSyQ';
 
     const [url, setUrl] = useState(null);
-    const { data, isLoading, hasError } = useFetch(url, getStructuredInfoBooks);
+    const { data, isLoading, hasError } = useFetch(url, getStructuredInfoBooks, 'books');
+
+    const { book, setBook } = useContext( BookContext );
 
     const onSubmit = async (event) => {
         event.preventDefault();
         setUrl(`https://www.googleapis.com/books/v1/volumes?q=${bookName}&key=${API_KEY}`);
+        setBook(bookName);
         onResetForm();
-    }    
+    }
 
     return (
         <>
-            <h1>Google Books API</h1>
+            <h1>Google Books</h1>
             <form onSubmit={onSubmit}>
                 <input
                     type='text'
@@ -34,10 +40,9 @@ export const HomePage = () => {
             <div className='row'>
                 {
                     isLoading ? <Spinner /> :
-                        !hasError &&
-                        data?.length > 0 && data.map(book => (
-                            <BookCard key={book.id} book={book} />
-                        ))
+                        hasError ?
+                            <ErrorMessage /> :
+                            <SearchedContainer data={data} bookName={book} />
                 }
             </div>
         </>
