@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "../hooks"
 import { getOnlineBooks } from "../utils/getOnlineBooks";
+import { BookCard } from "./BookCard/BookCard";
 
 export const HomePage = () => {
 
@@ -8,7 +9,7 @@ export const HomePage = () => {
 
     const { bookName, onInputChange, onResetForm } = useForm({ bookName: '' });
 
-    const onSubmit = async(event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
         const books = await getOnlineBooks(bookName);
         console.log(books)
@@ -18,26 +19,23 @@ export const HomePage = () => {
 
     return (
         <>
+            <h1>Google Books API</h1>
             <form onSubmit={onSubmit}>
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control mb-3"
                     placeholder="Buscar"
                     name="bookName"
                     value={bookName}
                     onChange={onInputChange}
                 />
             </form>
-            <ul>
-                {books.length > 0 && books.map(book => (
-                    <li key={book.id}>{book.title}</li>
-                )
-                )}
-            </ul>
-
-
+            <div className="row">
+            {books.length > 0 && books.map(book => (
+                <BookCard book={book} />
+            ))}
+            </div>
         </>
-
     )
 }
 /* <GifGrid

@@ -6,11 +6,12 @@ export const getOnlineBooks = async (bookName) => {
 
     const books = data.items.map((bk) => ({
         id: bk.id,
-       /*  authorName: bk.volumeInfo?.authors[0], */
-        title: bk.volumeInfo.title,
         image: bk.volumeInfo.imageLinks.thumbnail,
-        /* category: bk.volumeInfo.categories[0], */
+        title: bk.volumeInfo.title,
+        category: bk.volumeInfo.categories,
+        authors: bk.volumeInfo.authors,
+        pageCount: bk.volumeInfo.pageCount,
+        more: bk.volumeInfo.canonicalVolumeLink,
     }));
-    console.log(books)
     return books;
 }
