@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { useForm } from "../hooks"
-import { getOnlineBooks } from "../utils/getOnlineBooks";
+import { useFetch, useForm } from "../hooks"
+import { getStructuredInfoBooks } from "../utils/getStructuredInfoBooks";
 import { BookCard } from "./BookCard/BookCard";
+import { Spinner } from "./Spinner/Spinner";
 
 export const HomePage = () => {
 
-    const [books, setBooks] = useState([]);
-
     const { bookName, onInputChange, onResetForm } = useForm({ bookName: '' });
+    const API_KEY = 'AIzaSyARcQEB_C_BPrp23ZAYe_Bse36L-ogvSyQ';
+
+    const [url, setUrl] = useState(null);
+    const { data, isLoading, hasError } = useFetch(url, getStructuredInfoBooks);
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        const books = await getOnlineBooks(bookName);
-        console.log(books)
-        setBooks(books)
+        setUrl(`https://www.googleapis.com/books/v1/volumes?q=${bookName}&key=${API_KEY}`);
         onResetForm();
     }
 
@@ -31,14 +32,14 @@ export const HomePage = () => {
                 />
             </form>
             <div className="row">
-            {books.length > 0 && books.map(book => (
-                <BookCard book={book} />
-            ))}
+                {
+                    isLoading ? <Spinner /> :
+                        !hasError &&
+                        data?.length > 0 && data.map(book => (
+                            <BookCard key={book.id} book={book} />
+                        ))
+                }
             </div>
         </>
     )
 }
-/* <GifGrid
-                    key={book.id}
-                    category={book.author}
-                /> */
