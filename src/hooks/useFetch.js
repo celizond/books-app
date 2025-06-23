@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-export const useFetch = (url, transformFn, fetchName) => {
+export const useFetch = (url, transformFn, fetchName, title) => {
 
   const [state, setState] = useState({
-    data: JSON.parse(localStorage.getItem(fetchName)) || null,
+    data: JSON.parse(localStorage.getItem(fetchName))?.[0] || null,
     isLoading: false,
     hasError: false,
     error: null,
@@ -11,14 +11,14 @@ export const useFetch = (url, transformFn, fetchName) => {
 
   const onFetch = async () => {
     try {
-      // sleep
-      /* await new Promise(resolve => setTimeout(resolve, 101500)); */
+      // sleep para pruebas
+      await new Promise(resolve => setTimeout(resolve, 2500));
 
       const response = await fetch(url);
       const data = await response.json();
 
       setState({
-        data: transformFn ? transformFn(data) : data,
+        data: transformFn ? transformFn(data, title) : data,
         isLoading: false,
         hasError: false,
         error: null,
@@ -35,9 +35,15 @@ export const useFetch = (url, transformFn, fetchName) => {
 
   useEffect(() => {
     if (!url) return;
-    setState({...state, isLoading: true});
+    setState({ ...state, isLoading: true });
     onFetch();
   }, [url])
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem(fetchName) || '{}');
+    const firstKey = Object.keys(stored)[0];
+    if (firstKey) setState({ ...state, data: stored[firstKey] || null });
+  }, []);
 
   return {
     data: state.data,

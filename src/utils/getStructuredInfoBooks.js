@@ -1,4 +1,4 @@
-export const getStructuredInfoBooks = (data) => {
+export const getStructuredInfoBooks = (data, bookName) => {
     if (!data.items) return [];
     const books = data.items.map((bk) => ({
         id: bk.id,
@@ -9,7 +9,6 @@ export const getStructuredInfoBooks = (data) => {
         pageCount: bk.volumeInfo.pageCount,
         more: bk.volumeInfo.canonicalVolumeLink,
     }));
-
-    localStorage.setItem('books', JSON.stringify(books));
+    localStorage.setItem('books', JSON.stringify({[bookName] : books}));
     return books;
 }

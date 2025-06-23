@@ -1,11 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFetch, useForm } from '../hooks'
 import { getStructuredInfoBooks } from '../utils/getStructuredInfoBooks';
 import { Spinner } from './Spinner/Spinner';
 import { ErrorMessage } from './errorMessage/ErrorMessage';
 import { SearchedContainer } from './searchedContainer/SearchedContainer';
-import { useContext } from "react"
-import { BookContext } from '../hooks/context/BookContext';
 
 export const HomePage = () => {
 
@@ -13,14 +11,20 @@ export const HomePage = () => {
     const API_KEY = 'AIzaSyARcQEB_C_BPrp23ZAYe_Bse36L-ogvSyQ';
 
     const [url, setUrl] = useState(null);
-    const { data, isLoading, hasError } = useFetch(url, getStructuredInfoBooks, 'books');
+    const [book, setBook] = useState(null);
 
-    const { book, setBook } = useContext( BookContext );
+    useEffect(() => {
+        const stored = JSON.parse(localStorage.getItem('books') || '{}');
+        const firstKey = Object.keys(stored)[0];
+        if (firstKey) setBook(firstKey);
+    }, []);
+
+    const { data, isLoading, hasError } = useFetch(url, getStructuredInfoBooks, 'books', book);
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        setUrl(`https://www.googleapis.com/books/v1/volumes?q=${bookName}&key=${API_KEY}`);
         setBook(bookName);
+        setUrl(`https://www.googleapis.com/books/v1/volumes?q=${bookName}&key=${API_KEY}`);
         onResetForm();
     }
 
@@ -42,7 +46,7 @@ export const HomePage = () => {
                     isLoading ? <Spinner /> :
                         hasError ?
                             <ErrorMessage /> :
-                            <SearchedContainer data={data} bookName={book} />
+                            (data && <SearchedContainer data={data} bookName={book} />)
                 }
             </div>
         </>

@@ -8,7 +8,7 @@ export const SearchedContainer = ({ data, bookName }) => {
         <div className="alert alert-info">
           No se encontraron resultados para "{bookName}".
         </div> :
-        data.map(book => (
+        data?.map(book => (
           <BookCard key={book.id} book={book} />))
       }
     </>
