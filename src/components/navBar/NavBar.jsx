@@ -10,13 +10,13 @@ export const NavBar = () => {
             <div className='collapse navbar-collapse' id='navbarNav'>
                 <ul className='navbar-nav'>
                     <li className='nav-item'>
-                        <NavLink className='nav-link' to={'/'} >Home</NavLink>
+                        <NavLink className='nav-link' to={'/'} >Inicio</NavLink>
                     </li>
                     <li className='nav-item'>
-                        <NavLink className='nav-link' to={'/about'} >About</NavLink>
+                        <NavLink className='nav-link' to={'/books'} >Explorar</NavLink>
                     </li>
                     <li className='nav-item'>
-                        <NavLink className='nav-link' to={'/login'} >Login</NavLink>
+                        <NavLink className='nav-link' to={'/tasks'} >Lectura</NavLink>
                     </li>
                 </ul>
             </div>

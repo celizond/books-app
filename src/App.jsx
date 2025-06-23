@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { NavBar } from './components/NavBar';
+import { NavBar } from './components/navBar/NavBar';
 import { HomePage } from './components/HomePage';
-import { AboutPage } from './components/AboutPage';
-import { LoginPage } from './components/LoginPage';
+import { BooksPage } from './components/BooksPage';
+import { TasksPage } from './components/TasksPage';
 
 export const App = () => {
 
@@ -13,9 +13,9 @@ export const App = () => {
 
             <Routes>
                 <Route path={'/'} element={<HomePage />} />
-                <Route path={'/about'} element={<AboutPage />} />
-                <Route path={'/login'} element={<LoginPage />} />
-                <Route path={'/*'} element={<Navigate to={'/login'} />} />
+                <Route path={'/books'} element={<BooksPage />} />
+                <Route path={'/tasks'} element={<TasksPage />} />
+                <Route path={'/*'} element={<Navigate to={'/books'} />} />
             </Routes>
         </>
     )

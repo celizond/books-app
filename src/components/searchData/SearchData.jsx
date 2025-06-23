@@ -1,6 +1,6 @@
-import { BookCard } from "../BookCard/BookCard"
+import { BookCard } from "../bookCard/BookCard";
 
-export const SearchedContainer = ({ data, bookName }) => {
+export const SearchData = ({ data, bookName }) => {
   return (
     <>
       <h2>Resultado de búsqueda para: {bookName}</h2>
